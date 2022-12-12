@@ -25,11 +25,11 @@
         </div>
         <div>
           <strong>Last active:</strong>
-          <p>{{member.lastActive}}</p>
+          <p>{{member.lastActive | date}}</p>
         </div>
         <div>
           <strong>Created:</strong>
-          <p>{{member.created}}</p>
+          <p>{{member.created | date}}</p>
         </div>
       </div>
       <div class="card-footer">
@@ -59,7 +59,7 @@
         </form>
       </tab>
       <tab heading="Edit Photos">
-        <p>Photo edit will go here</p>
+        <app-photo-editor [member]="member"></app-photo-editor>
       </tab>
     </tabset>
   </div>
