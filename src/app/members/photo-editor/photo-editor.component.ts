@@ -3,19 +3,19 @@
  */
 
 import { Component, Input, OnInit } from '@angular/core';
-import { Member } from "../../_models/member";
-import { FileUploader } from "ng2-file-upload";
-import { environment } from "../../../environments/environment";
-import { User } from "../../_models/user";
-import { AccountService } from "../../_services/account.service";
-import { take } from "rxjs";
-import { Photo } from "../../_models/photo";
-import { MembersService } from "../../_services/members.service";
+import { Member } from '../../_models/member';
+import { FileUploader } from 'ng2-file-upload';
+import { environment } from '../../../environments/environment';
+import { User } from '../../_models/user';
+import { AccountService } from '../../_services/account.service';
+import { take } from 'rxjs';
+import { Photo } from '../../_models/photo';
+import { MembersService } from '../../_services/members.service';
 
 @Component({
   selector: 'app-photo-editor',
   templateUrl: './photo-editor.component.html',
-  styleUrls: ['./photo-editor.component.css']
+  styleUrls: ['./photo-editor.component.css'],
 })
 export class PhotoEditorComponent implements OnInit {
   @Input() member: Member | undefined;
@@ -24,12 +24,15 @@ export class PhotoEditorComponent implements OnInit {
   baseUrl = environment.apiUrl;
   user: User | undefined;
 
-  constructor(private accountService: AccountService, private memberService: MembersService) {
+  constructor(
+    private accountService: AccountService,
+    private memberService: MembersService
+  ) {
     this.accountService.currentUser$.pipe(take(1)).subscribe({
-      next: user => {
+      next: (user) => {
         if (user) this.user = user;
-      }
-    })
+      },
+    });
   }
 
   ngOnInit(): void {
@@ -47,23 +50,25 @@ export class PhotoEditorComponent implements OnInit {
           this.user.photoUrl = photo.url;
           this.accountService.setCurrentUser(this.user);
           this.member.photoUrl = photo.url;
-          this.member.photos.forEach(p => {
+          this.member.photos.forEach((p) => {
             if (p.isMain) p.isMain = false;
             if (p.id === photo.id) p.isMain = true;
-          })
+          });
         }
-      }
-    })
+      },
+    });
   }
 
   deletePhoto(photoId: number) {
     this.memberService.deletePhoto(photoId).subscribe({
-      next: _ => {
+      next: (_) => {
         if (this.member) {
-          this.member.photos = this.member.photos.filter(x => x.id != photoId);
+          this.member.photos = this.member.photos.filter(
+            (x) => x.id != photoId
+          );
         }
-      }
-    })
+      },
+    });
   }
 
   initializeUploader() {
@@ -74,18 +79,22 @@ export class PhotoEditorComponent implements OnInit {
       allowedFileType: ['image'],
       removeAfterUpload: true,
       autoUpload: false,
-      maxFileSize: 10 * 1024 * 1024
+      maxFileSize: 10 * 1024 * 1024,
     });
 
     this.uploader.onAfterAddingFile = (file) => {
-      file.withCredentials = false
-    }
+      file.withCredentials = false;
+    };
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       if (response) {
         const photo = JSON.parse(response);
         this.member?.photos.push(photo);
+        if (photo.isMain && this.user && this.member) {
+          this.user.photoUrl = photo.url;
+          this.member.photoUrl = photo.url;
+          this.accountService.setCurrentUser(this.user);
+        }
       }
-    }
+    };
   }
-
 }
