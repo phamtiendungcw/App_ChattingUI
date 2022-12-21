@@ -3,15 +3,15 @@
  */
 
 import { Injectable } from '@angular/core';
-import { NgxSpinnerService } from "ngx-spinner";
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BusyService {
   busyRequestCount = 0;
 
-  constructor(private spinnerService: NgxSpinnerService) { }
+  constructor(private spinnerService: NgxSpinnerService) {}
 
   busy() {
     this.busyRequestCount++;
@@ -19,8 +19,8 @@ export class BusyService {
       type: 'ball-atom',
       bdColor: 'rgba(255,255,255,0)',
       color: '#333333',
-      size: 'medium'
-    })
+      size: 'medium',
+    });
   }
 
   idle() {
