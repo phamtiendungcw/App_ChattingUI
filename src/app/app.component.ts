@@ -12,7 +12,7 @@ import { User } from "./_models/user";
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  title = 'App Chat';
+  title = 'App EDMS';
 
   constructor(private accountService: AccountService) {}
 
