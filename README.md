@@ -1,7 +1,7 @@
 # Client for Chat App
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.10.
-This API [API](https://github.com/phamtiendungcw/App_Chatting).
+This source [API](https://github.com/phamtiendungcw/App_Chatting).
 
 ## Development server
 
